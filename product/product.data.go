@@ -8,4 +8,4 @@ import (
 var productMap = struct {
 	sync.RWMutex
 	m map[int]Product
-}{m: make(map[int]product)}
+}{m: make(map[int]Product)}
