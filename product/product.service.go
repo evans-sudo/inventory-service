@@ -15,7 +15,12 @@ const productsPath = "products"
 func handleProducts(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		productList := getProductList()
+		productList, err := getProductList()
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
 		j, err := json.Marshal(productList)
 		if err != nil {
 			log.Fatal(err)
@@ -33,13 +38,15 @@ func handleProducts(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		_, err = addOrUpdateProduct(product)
+		productID, err := insertProduct(product)
 		if err != nil {
 			log.Print(err)
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 		w.WriteHeader(http.StatusCreated)
+		w.Write([]byte(fmt.Sprintf(`{"productId":%d}`, productID)))
+
 
 	case http.MethodOptions:
 		return 
@@ -64,8 +71,8 @@ func handleProduct(w http.ResponseWriter, r *http.Request) {
 	}
 	switch r.Method {
 	case http.MethodGet:
-		product := getProduct(productID)
-		if product == nil {
+		product, err := getProduct(productID)
+		if err != nil {
 			w.WriteHeader(http.StatusNotFound)
 			return
 		}
@@ -95,14 +102,19 @@ func handleProduct(w http.ResponseWriter, r *http.Request) {
 			return 
 		}
 
-		_, err = addOrUpdateProduct(product)
+		 err = updateProduct(product)
 		if err != nil {
 			log.Print(err)
 			w.WriteHeader(http.StatusBadRequest)
 			return 
 		}
 	case http.MethodDelete:
-		removeProduct(productID)
+		err := removeProduct(productID)
+		if err != nil {
+			log.Print(err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 
 	case http.MethodOptions:
 		return 
