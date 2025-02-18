@@ -41,7 +41,7 @@ func handleReceipts(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		defer file.Close()
-		f, err := os.OpenFile(filepath.Join(ReceiptDirectory, handler.Filename), os.O_WRONLY|os.O_CREATE, 0666)
+		f, _ := os.OpenFile(filepath.Join(ReceiptDirectory, handler.Filename), os.O_WRONLY|os.O_CREATE, 0666)
 		defer f.Close()
 		io.Copy(f, file)
 		w.WriteHeader(http.StatusCreated)
@@ -60,11 +60,12 @@ func handleDownload(w http.ResponseWriter, r *http.Request) {
 	}
 	fileName := urlPathSegments[1:][0]
 	file, err := os.Open(filepath.Join(ReceiptDirectory, fileName))
-	defer file.Close()
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
+	defer file.Close()
+
 	fHeader := make([]byte, 512)
 	file.Read(fHeader)
 	fContentType := http.DetectContentType(fHeader)
@@ -84,7 +85,7 @@ func handleDownload(w http.ResponseWriter, r *http.Request) {
 
 
 
-// SetupRoutes :
+// SetupRoutes
 func SetupRoutes(apiBasePath string) {
 	recieptHandler := http.HandlerFunc(handleReceipts)
 	downloadHandler := http.HandlerFunc(handleDownload)

@@ -1,0 +1,35 @@
+<!doctype html>
+<head>
+</head>
+<body style="height: 100%;" }>
+<div style="background: #6a7d87; width: 100%; z-index: 100; top: 0;
+  left: 0; box-shadow: 0 1px 20px transparentize($second-color, 0.5);">
+<img style="width: 20em;" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAB1gAAAGQCAYAAAADYrLaAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAZ3lJREFUeNrs3b1yXEebIOjs7s8Yqz+0NxE0VPKmLUJWr8eiuZZA3gALXq/BIOmtB/AKSIac9VC8ARHydiyWvIl2CFk9nkqGItZrfNHOrLV7kpUllkgQv5nnZJ7zPBEVoCipUJWZJ//e/AkBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgIzuPX66H193fI9Z95pLTQAAAAAAgHb9RRIwZTsBz+3P+91rL70+D6iuutfDO/y6Rfc66n7n7t+dda/z9OefP/u7s99//OFcLgEAAAAAANRDgJXRiztHux/xNe9e36Q/x+DpXgUfbzeIO7/gs8cfq7AJuP4SNsHX9e8//nAmZwEAAAAAAPonwMqopGBqDFo+SD9rCaTexTz9PNj5nvHHKmwCrh8Dr4KuAAAAAAAA5Qmw0rR0L+o8bAKq8efehL7+POzseu3S4uOxwmFz1PDq9x9/WCkhAAAAAAAAeQmw0pSJB1Svshc+BV2Pdna5xoDrqR2uAAAAAAAAdyfAStXuPX66DRp"/>
+</div>
+<div style="font-size: 1.5rem; font-weight: bold; color: #212529; display: block; font-family: Roboto, 'Helvetica Neue', sans-serif;font-stretch: normal; font-weight: bold; text-align: left; padding: .75rem 1.25rem; background-color: rgba(0,0,0,.03); border-bottom: 1px solid rgba(0,0,0,.125); ">
+Product Summary Report
+</div>
+		<table style="width: 100%; height: 100%; margin-top: .5em;">
+			<tr>
+            <th>Row</th>
+            <th>Product Name</th>
+            <th>Quantity On Hand</th>
+            </tr>
+            {{range $index, $element := .}}
+            {{if mod $index 2}} <tr style="background:#6a7d87;"> {{else}} <tr> {{end}}
+            
+				 <td>
+                 {{$index}}
+                 </td>
+                 <td>
+					{{.ProductName}}
+				</td>
+				<td>
+					{{.QuantityOnHand}}
+				</td>
+			</tr>
+			{{end}}
+		</table>
+
+</body>
+</html>

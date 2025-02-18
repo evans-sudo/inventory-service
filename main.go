@@ -9,7 +9,6 @@ import (
 )
 
 
-
 const basePath = "/api"
 
 
@@ -17,8 +16,5 @@ func main() {
 	database.SetupDatabase()
 	receipt.SetupRoutes(basePath)
 	product.SetupRoutes(basePath)
-	err := http.ListenAndServe(":5000", nil)
-	if err != nil {
-		log.Fatal(err)
-	}
+	log.Fatal(http.ListenAndServe(":5000", nil))
 }
