@@ -1,31 +1,27 @@
 package receipt
 
-
 import (
-	"os"
+	"io/ioutil"
 	"path/filepath"
+	"time"
 )
+
 
 var ReceiptDirectory string = filepath.Join("uploads")
 
 type Receipt struct {
-	ReceiptNamec string `json:"Name"`
-	UploadDate   string `json:"UploadDate"`
+	ReceiptName string    `json:"name"`
+	UploadDate  time.Time `json:"uploadDate"`
 }
 
-
 func GetReceipts() ([]Receipt, error) {
-	reciept := make([]Receipt, 0)
-	files, err := os.ReadDir(ReceiptDirectory)
+	reciepts := make([]Receipt, 0)
+	files, err := ioutil.ReadDir(ReceiptDirectory)
 	if err != nil {
 		return nil, err
 	}
-	for _, file := range files {
-		info, err := file.Info()
-		if err != nil {
-			return nil, err
-		}
-		reciept = append(reciept, Receipt{ReceiptNamec: file.Name(), UploadDate: info.ModTime().String()})
+	for _, f := range files {
+		reciepts = append(reciepts, Receipt{ReceiptName: f.Name(), UploadDate: f.ModTime()})
 	}
-	return reciept, nil
+	return reciepts, nil
 }
